@@ -3,7 +3,7 @@ const fs = require('fs');
 const url = require('url');
 const app = express();
 
-const port = process.env.PORT;
+const port = /*process.env.PORT*/ '1985';
 
 const testURL = /^https?:\/\/[a-z0-9-]+(\.[a-z0-9-]+)+(\/.*)*$/;
 
@@ -43,9 +43,7 @@ app.get('/:short', (req, res) => {
     if (e) throw e;
     shortURLs = JSON.parse(data);
     if (shortURLs.hasOwnProperty(short)) {
-      res.writeHead(302, {
-        'Location': shortURLs[short]
-      });
+      res.redirect(shortURLs[short]);
     } else {
       res.json({
       error: 'URL is not in database'
